@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     status: {
-      type: DataTypes.ENUM('Pending', 'Closed', 'Resolved', 'In Progress')
+      type: DataTypes.ENUM('Pending', 'Closed', 'Resolved', 'In Progress', 'Archived')
     },
     bounty: {
       type: DataTypes.STRING

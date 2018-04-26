@@ -26,7 +26,7 @@ module.exports = {
       status: {
         allowNull: false,
         defaultValue: 'Pending',
-        type: Sequelize.ENUM('Pending', 'Closed', 'Resolved', 'In Progress')
+        type: Sequelize.ENUM('Pending', 'Closed', 'Resolved', 'In Progress', 'Archived')
       },
       bounty: {
         allosNull: false,

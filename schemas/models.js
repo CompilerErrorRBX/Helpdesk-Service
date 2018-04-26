@@ -44,11 +44,11 @@ const User = new GraphQLObjectType({
     },
     createdAt: {
       type: GraphQLString,
-      resolve: job => job.createdAt,
+      resolve: job => job.createdAt.toISOString(),
     },
     updatedAt: {
       type: GraphQLString,
-      resolve: job => job.updatedAt,
+      resolve: job => job.updatedAt.toISOString(),
     },
     jobs: {
       type: new GraphQLList(Job),
@@ -103,11 +103,11 @@ const Job = new GraphQLObjectType({
     },
     createdAt: {
       type: GraphQLString,
-      resolve: job => job.createdAt,
+      resolve: job => job.createdAt.toISOString(),
     },
     updatedAt: {
       type: GraphQLString,
-      resolve: job => job.updatedAt,
+      resolve: job => job.updatedAt.toISOString(),
     },
     requester: {
       type: User,
@@ -138,11 +138,11 @@ const Role = new GraphQLObjectType({
     },
     createdAt: {
       type: GraphQLString,
-      resolve: role => role.createdAt,
+      resolve: role => role.createdAt.toISOString(),
     },
     updatedAt: {
       type: GraphQLString,
-      resolve: role => role.updatedAt,
+      resolve: role => role.updatedAt.toISOString(),
     },
     users: {
       type: new GraphQLList(User),
@@ -169,11 +169,11 @@ const Comment = new GraphQLObjectType({
     },
     createdAt: {
       type: GraphQLString,
-      resolve: comment => comment.createdAt,
+      resolve: comment => comment.createdAt.toISOString(),
     },
     updatedAt: {
       type: GraphQLString,
-      resolve: comment => comment.updatedAt,
+      resolve: comment => comment.updatedAt.toISOString(),
     },
     commenter: {
       type: User,
@@ -212,7 +212,7 @@ const Profile = new GraphQLObjectType({
     },
     updatedAt: {
       type: GraphQLString,
-      resolve: profile => profile.updatedAt,
+      resolve: profile => profile.updatedAt.toISOString(),
     },
   }),
 });

@@ -46,7 +46,7 @@ module.exports = {
     userAddRole: {
       type: schemas.User,
       args: {
-        userId: { type: new GraphQLNonNull(GraphQLString) },
+        username: { type: new GraphQLNonNull(GraphQLString) },
         role: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: (root, args, req) => {
@@ -54,9 +54,9 @@ module.exports = {
           throw new GraphQLError('Unauthorized.');
         }
 
-        return db.User.find({ where: { id: args.userId } }).then((user) => {
+        return db.User.find({ where: { username: args.username } }).then((user) => {
           if (!user) {
-            throw new GraphQLError(`Invalid user id: ${args.userId}`);
+            throw new GraphQLError(`Invalid username: ${args.username}`);
           }
 
           return db.Role.find({ where: { role: args.role } }).then((role) => {
@@ -72,7 +72,7 @@ module.exports = {
     userRemoveRole: {
       type: schemas.User,
       args: {
-        userId: { type: new GraphQLNonNull(GraphQLString) },
+        username: { type: new GraphQLNonNull(GraphQLString) },
         role: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: (root, args, req) => {
@@ -80,9 +80,9 @@ module.exports = {
           throw new GraphQLError('Unauthorized.');
         }
 
-        return db.User.find({ where: { id: args.userId } }).then((user) => {
+        return db.User.find({ where: { username: args.username } }).then((user) => {
           if (!user) {
-            throw new GraphQLError(`Invalid user id: ${args.userId}`);
+            throw new GraphQLError(`Invalid username: ${args.username}`);
           }
 
           return db.Role.find({ where: { role: args.role } }).then((role) => {

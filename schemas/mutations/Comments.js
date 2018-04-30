@@ -12,7 +12,7 @@ const Authentication = require('../helpers/Authentication');
 const db = require('../../db/models');
 
 module.exports = {
-  name: 'users',
+  name: 'comments',
   mutation: {
     commentUpdate: {
       type: schemas.Comment,

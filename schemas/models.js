@@ -66,6 +66,10 @@ const User = new GraphQLObjectType({
       type: new GraphQLList(Role),
       resolve: user => user.getRoles({ order: [['role', 'DESC']] }),
     },
+    records: {
+      type: new GraphQLList(Record),
+      resolve: user => user.getRecords({ order: [['createdAt', 'DESC']] }),
+    },
     profile: {
       type: Profile,
       resolve: user => user.getProfile(),
@@ -111,7 +115,7 @@ const Job = new GraphQLObjectType({
     },
     requester: {
       type: User,
-      resolve: job => job.getRequester({ order: [['createdAt', 'DESC']] }),
+      resolve: job => job.getRequester(),
     },
     technicians: {
       type: new GraphQLList(User),
@@ -120,6 +124,10 @@ const Job = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(Comment),
       resolve: job => job.getComments({ order: [['createdAt', 'DESC']] }),
+    },
+    records: {
+      type: new GraphQLList(Record),
+      resolve: job => job.getRecords({ order: [['createdAt', 'DESC']] }),
     },
   }),
 });
@@ -217,9 +225,46 @@ const Profile = new GraphQLObjectType({
   }),
 });
 
+const Record = new GraphQLObjectType({
+  name: 'Record',
+  description: 'Record representation',
+  fields: () => ({
+    id: {
+      type: GraphQLString,
+      resolve: record => record.id,
+    },
+    userId: {
+      type: GraphQLString,
+      resolve: record => record.userId,
+    },
+    jobId: {
+      type: GraphQLInt,
+      resolve: record => record.jobId,
+    },
+    description: {
+      type: GraphQLString,
+      resolve: record => record.description,
+    },
+    updatedAt: {
+      type: GraphQLString,
+      resolve: record => record.updatedAt.toISOString(),
+    },
+    createdAt: {
+      type: GraphQLString,
+      resolve: record => record.updatedAt.toISOString(),
+    },
+    user: {
+      type: User,
+      resolve: record => record.getUser(),
+    },
+  }),
+});
+
 module.exports = {
   User,
   Job,
   Role,
-  Comment
+  Comment,
+  Profile,
+  Record,
 };

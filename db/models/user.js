@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(models.Profile, { as: 'profile', foreignKey: 'userId' });
     User.hasMany(models.Job, { as: 'requests', foreignKey: 'requesterId', targetKey: 'id' });
     User.hasMany(models.Comment, { as: 'comments', foreignKey: 'commenterId', targetKey: 'id' });
+    User.hasMany(models.Record, { as: 'records', foreignKey: 'userId', targetKey: 'id' });
     User.belongsToMany(models.Job, { through: 'JobTechnician', as: 'jobs', foreignKey: 'userId', targetKey: 'id' });
   };
   return User;

@@ -24,7 +24,6 @@ module.exports = {
         const user = Authentication.currentUser(req);
 
         args.userId = user.id;
-
         args.description = decodeURI(args.description);
 
         return db.Job.find({ where: { id: args.jobId } }).then((job) => {

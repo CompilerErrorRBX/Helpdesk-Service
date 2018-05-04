@@ -7,12 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     username: {
       allowNull: false,
-      type: DataTypes.STRING(32),
+      type: DataTypes.STRING(64),
       unique: true,
       validate: {
         len: {
-          args: [3, 32],
-          msg: 'Usernames must be between 3 and 32 characters long.'
+          args: [3, 64],
+          msg: 'Usernames must be between 3 and 64 characters long.'
         }
       }
     },
@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isEmail: {
           msg: 'Invalid email format.'
+        },
+        len: {
+          args: [3, 254],
+          msg: 'Emails must be between 3 and 254 characters long.'
         }
       }
     },

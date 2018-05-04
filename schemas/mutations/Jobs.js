@@ -111,5 +111,70 @@ module.exports = {
         });
       },
     },
+    jobLabelsAdd: {
+      type: schemas.Job,
+      args: {
+        jobId: { type: new GraphQLNonNull(GraphQLInt) },
+        labels: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (root, args, req) => {
+        const user = Authentication.currentUser(req);
+
+        args.userId = user.id;
+        const labels = decodeURI(args.labels).split(',');
+
+        return db.Job.find({ where: { id: args.jobId } }).then((job) => {
+          if (!job) {
+            throw new GraphQLError(`Invalid job id: ${args.jobId}`);
+          }
+          if (job.requesterId !== user.id && !Authentication.hasRole(req, 'Admin', 'Technician')) {
+            throw new GraphQLError('Unauthorized.');
+          }
+
+          labels.forEach((label) => {
+            db.Label.findOrCreate({
+              where: { label },
+              defaults: { label },
+            }).then((labelModel) => {
+              job.addLabel(labelModel);
+            });
+          });
+
+          return job;
+        });
+      },
+    },
+    jobLabelRemove: {
+      type: schemas.Label,
+      args: {
+        jobId: { type: new GraphQLNonNull(GraphQLInt) },
+        label: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (root, args, req) => {
+        const user = Authentication.currentUser(req);
+
+        args.userId = user.id;
+        args.label = decodeURI(args.label);
+
+        return db.Job.find({ where: { id: args.jobId } }).then((job) => {
+          if (!job) {
+            throw new GraphQLError(`Invalid job id: ${args.jobId}`);
+          }
+          if (job.requesterId !== user.id && !Authentication.hasRole(req, 'Admin', 'Technician')) {
+            throw new GraphQLError('Unauthorized.');
+          }
+
+          return db.Label.find({
+            where: { label: args.label },
+          }).then((label) => {
+            if (!label) {
+              throw new GraphQLError(`Invalid label: ${args.label}`);
+            }
+
+            job.removeLabel(label);
+          });
+        });
+      },
+    },
   },
 }

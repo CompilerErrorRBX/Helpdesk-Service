@@ -129,6 +129,10 @@ const Job = new GraphQLObjectType({
       type: new GraphQLList(Record),
       resolve: job => job.getRecords({ order: [['createdAt', 'DESC']] }),
     },
+    labels: {
+      type: new GraphQLList(Label),
+      resolve: job => job.getLabels({ order: [['createdAt', 'DESC']] }),
+    },
   }),
 });
 
@@ -260,6 +264,33 @@ const Record = new GraphQLObjectType({
   }),
 });
 
+const Label = new GraphQLObjectType({
+  name: 'Label',
+  description: 'Record representation',
+  fields: () => ({
+    id: {
+      type: GraphQLString,
+      resolve: label => label.id,
+    },
+    label: {
+      type: GraphQLString,
+      resolve: label => label.label,
+    },
+    updatedAt: {
+      type: GraphQLString,
+      resolve: label => label.updatedAt.toISOString(),
+    },
+    createdAt: {
+      type: GraphQLString,
+      resolve: label => label.updatedAt.toISOString(),
+    },
+    jobs: {
+      type: new GraphQLList(Job),
+      resolve: label => label.getJobs({ order: [['createdAt', 'DESC']] }),
+    },
+  }),
+});
+
 module.exports = {
   User,
   Job,
@@ -267,4 +298,5 @@ module.exports = {
   Comment,
   Profile,
   Record,
+  Label,
 };

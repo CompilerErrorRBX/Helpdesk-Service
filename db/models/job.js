@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Job.associate = (models) => {
     Job.belongsToMany(models.User, { through: 'JobTechnician', as: 'technicians', foreignKey: 'jobId', targetKey: 'id' });
+    Job.belongsToMany(models.Label, { through: 'JobLabel', as: 'labels', foreignKey: 'jobId', targetKey: 'id' });
     Job.belongsTo(models.User, { as: 'requester', foreignKey: 'requesterId', targetKey: 'id' });
     Job.hasMany(models.Comment, { as: 'comments', foreignKey: 'jobId', onDelete: 'cascade' })
     Job.hasMany(models.Record, { as: 'records', foreignKey: 'jobId', onDelete: 'cascade' })

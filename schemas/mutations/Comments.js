@@ -59,10 +59,12 @@ module.exports = {
       type: schemas.Comment,
       args: {
         replyId: { type: new GraphQLNonNull(GraphQLString) },
+        body: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: (root, args, req) => {
         const user = Authentication.currentUser(req);
         args.commenterId = user.id;
+        args.body = decodeURI(args.body);
 
         return db.Comment.find({ where: { id: args.replyId } }).then((comment) => {
           if (!comment) {
